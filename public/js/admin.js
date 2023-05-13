@@ -1,1 +1,1 @@
-// alert('hi lo')
+// admin js

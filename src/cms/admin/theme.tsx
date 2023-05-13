@@ -18,7 +18,7 @@ const Layout = (props: {
         <title>SonicJs Admin</title>
         <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
 
-        <link rel="stylesheet" href="/css/admin.css" />
+        <link rel="stylesheet" href="/public/css/admin.css" />
         <link
           rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -32,7 +32,7 @@ const Layout = (props: {
       <body class="bg-dark text-light">
         <nav class="navbar navbar-dark sticky-top bg-darker flex-md-nowrap p-0">
           <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">
-            <img class="logo" src="/images/sonicjs-logo.svg" />
+            <img class="logo" src="/public/images/sonicjs-logo.svg" />
           </a>
           {/* <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search" /> */}
           <ul class="navbar-nav px-3">
@@ -108,8 +108,8 @@ const Layout = (props: {
           crossorigin="anonymous"
           referrerpolicy="no-referrer"
         ></script>
-        <script src="/js/admin.js"></script>
-        <script src="/js/form.js"></script>
+        <script src="/public/js/admin.js"></script>
+        <script src="/public/js/form.js"></script>
       </body>
     </html>
   );
