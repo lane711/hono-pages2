@@ -157,10 +157,12 @@ const Form = (props: { title: string; screenTitle: string }) => {
 
 export async function loadAdmin(context) {
 
-    await putData(context.env.KVDATA, 'site1', 'content', {title: '20230508'});
+    await putData(context.env.KVDATA, 'site1', 'content', {title: '20230508a'});
 
 
   const data = await getDataByPrefix(context.env.KVDATA);
+
+  console.log('load admin data', data)
 
   const list = data.keys.map((item) => {
     return {
@@ -217,10 +219,10 @@ export async function loadModule(context) {
 // }
 
 export async function loadContentTypes(context) {
-  console.log("context KVDATA", context.env.KVDATA);
+  console.log("loadContentTypes KVDATA", context.env.KVDATA);
 
   const data = await getDataByPrefix(context.env.KVDATA, "site1::content-type");
-  console.log("data", data.keys[0]);
+  console.log("data", data);
 
   const list = data.keys.map((item) => {
     return {
