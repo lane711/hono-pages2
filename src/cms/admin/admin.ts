@@ -1,13 +1,13 @@
 // import { Hono } from 'hono'
 // const app = new Hono()
 import { loadForm } from "./forms/form";
-import { loadTest } from "./test";
+import { loadSite, loadSites } from "./pages/sites";
 import {
   loadAdmin,
   loadContentType,
   loadContentTypes,
+  loadModule,
   loadModules,
-  loadSites,
 } from "./theme";
 // const html = `
 // <!DOCTYPE html>
@@ -37,8 +37,12 @@ import {
 
 export function setAdmin(app) {
   app.get("/admin", async (c) => c.html(await loadAdmin(c)));
+
   app.get("/admin/sites", async (c) => c.html(await loadSites(c)));
+  app.get("/admin/sites/*", async (c) => c.html(await loadSite(c)));
+
   app.get("/admin/modules", async (c) => c.html(await loadModules(c)));
+  app.get("/admin/modules/*", async (c) => c.html(await loadModule(c)));
 
   app.get("/admin/content-types", async (c) =>
     c.html(await loadContentTypes(c))
@@ -46,8 +50,6 @@ export function setAdmin(app) {
   app.get("/admin/content-types/*", async (c) =>
     c.html(await loadContentType(c))
   );
-
-  loadTest(app);
 
   // app.get("/api/forms", async (c) => c.html(await loadForm(c)));
 
