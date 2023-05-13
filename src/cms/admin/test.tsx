@@ -1,7 +1,3 @@
-import { Hono } from "hono";
-import { html } from "hono/html";
-import { jsx } from "hono/jsx";
-
 interface SiteData {
   title: string;
   children?: any;

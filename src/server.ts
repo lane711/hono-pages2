@@ -1,6 +1,6 @@
 import { Hono } from "hono";
-import { html } from 'hono/html'
-import { jsx } from 'hono/jsx'
+// import { html } from 'hono/html'
+// import { jsx } from 'hono/jsx'
 
 import { setAdmin } from "./cms/admin/admin";
 import { setupApi } from "./cms/api/api";
