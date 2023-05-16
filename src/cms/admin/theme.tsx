@@ -4,6 +4,7 @@ const Layout = (props: {
   children?: string;
   formComponents?: any[];
   screenTitle?: string;
+  newItemButtonText?: string;
 }) => {
   return (
     <html lang="en">
@@ -13,16 +14,21 @@ const Layout = (props: {
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
-        <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico" />
-
         <title>SonicJs Admin</title>
-        <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
+        <link
+          rel="icon"
+          type="image/x-icon"
+          href="/public/images/favicon.ico"
+        />
+
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+          crossorigin="anonymous"
+        />
 
         <link rel="stylesheet" href="/public/css/admin.css" />
-        <link
-          rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        />
         <link
           rel="stylesheet"
           href="https://cdn.form.io/formiojs/formio.full.min.css"
@@ -99,8 +105,13 @@ const Layout = (props: {
           integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
           crossorigin="anonymous"
         ></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
-        <script src="https://cdn.usebootstrap.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+          crossorigin="anonymous"
+        ></script>
+
         <script src="https://cdn.form.io/formiojs/formio.full.min.js"></script>
         <script
           src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"
@@ -115,11 +126,25 @@ const Layout = (props: {
   );
 };
 
-export const Top = (props: { items: object[]; screenTitle: string }) => {
+export const Top = (props: {
+  items: object[];
+  screenTitle: string;
+  newItemButtonText: string;
+}) => {
   return (
     <Layout screenTitle={props.screenTitle}>
+      <div class="pb-2 mb-3">
+        <button
+          id="contentFormSaveButton"
+          class="btn btn-warning"
+          onclick="onContentFormSave()"
+        >
+          {props.newItemButtonText}
+        </button>{" "}
+      </div>
+
       <ul>
-        {props.items.map((item:any) => {
+        {props.items.map((item: any) => {
           return (
             <li>
               <a class="text-light" href={item.path}>
@@ -134,18 +159,19 @@ export const Top = (props: { items: object[]; screenTitle: string }) => {
 };
 
 export const Detail = (props: { item: any; screenTitle: string }) => {
-  return (
-    <Layout screenTitle={props.screenTitle}>
-      {props.item}
-    </Layout>
-  );
+  return <Layout screenTitle={props.screenTitle}>{props.item}</Layout>;
 };
 
 const Form = (props: { title: string; screenTitle: string }) => {
   return (
     <Layout screenTitle={props.screenTitle + ": " + props.title}>
       <div class="pb-2 mb-3">
-        <button id="contentFormSaveButton" class="btn btn-warning" onclick="onContentFormSave()" disabled>
+        <button
+          id="contentFormSaveButton"
+          class="btn btn-warning"
+          onclick="onContentFormSave()"
+          disabled
+        >
           Save Content Type
         </button>{" "}
       </div>
@@ -156,13 +182,11 @@ const Form = (props: { title: string; screenTitle: string }) => {
 };
 
 export async function loadAdmin(context) {
-
-    // await putData(context.env.KVDATA, 'site1', 'content', {title: '20230508a'});
-
+  // await putData(context.env.KVDATA, 'site1', 'content', {title: '20230508a'});
 
   const data = await getDataByPrefix(context.env.KVDATA);
 
-  console.log('load admin data', data)
+  console.log("load admin data", data);
 
   const list = data.keys.map((item) => {
     return {
@@ -188,18 +212,13 @@ export async function loadModules(context) {
 }
 
 export async function loadModule(context) {
-  console.log('context url', context.req)
-  const id =     context.req.path.split('/').pop();
-  console.log('context id', id)
+  console.log("context url", context.req);
+  const id = context.req.path.split("/").pop();
+  console.log("context id", id);
 
-  const data = await getById(
-    context.env.KVDATA,
-    id
-  );
+  const data = await getById(context.env.KVDATA, id);
 
-  console.log('data module', data);
-
-
+  console.log("data module", data);
 
   return <Detail item={data.title} screenTitle="Module" />;
 }
@@ -234,16 +253,8 @@ export async function loadContentTypes(context) {
   return <Top items={list} screenTitle="Content Types" />;
 }
 
-export async function loadContentType(context) {
-  // await putData(context.env.KVDATA, 'site1', 'content-type', {title: 'blog-post'}, "site1::content-type::blog-post");
-
-  const data = await getById(
-    context.env.KVDATA,
-    "site1::content-type::blog-post"
-  );
-  // console.log("data", data.title);
-
-  // const list = data.map((item) => item.title);
+export async function loadContentType(context, id) {
+  const data = await getById(context.env.KVDATA, id);
 
   return <Form title={data.title} screenTitle="Content Type" />;
 }

@@ -1,7 +1,6 @@
 // import { Hono } from 'hono'
 // const app = new Hono()
 
-
 import { Hono } from "hono";
 import { loadForm } from "./forms/form";
 import { loadSite, loadSites } from "./pages/sites";
@@ -42,29 +41,31 @@ const admin = new Hono<{ Bindings: Bindings }>();
 
 //   export default app
 
-admin.get("/ping", (c) => {
-  return c.text(Date());
+admin.get("/ping", (ctx) => {
+  return ctx.text(Date());
 });
 
-admin.get("/", async (c) => c.html(await loadAdmin(c)));
+admin.get("/", async (ctx) => ctx.html(await loadAdmin(ctx)));
 
-admin.get("/sites", async (c) => c.html(await loadSites(c)));
-admin.get("/sites/*", async (c) => c.html(await loadSite(c)));
+admin.get("/sites", async (ctx) => ctx.html(await loadSites(ctx)));
+admin.get("/sites/*", async (ctx) => ctx.html(await loadSite(ctx)));
 
-admin.get("/modules", async (c) => c.html(await loadModules(c)));
-admin.get("/modules/*", async (c) => c.html(await loadModule(c)));
+admin.get("/modules", async (ctx) => ctx.html(await loadModules(ctx)));
+admin.get("/modules/*", async (ctx) => ctx.html(await loadModule(ctx)));
 
-admin.get("/content-types", async (c) =>
-  c.html(await loadContentTypes(c))
+admin.get("/content-types", async (ctx) =>
+  ctx.html(await loadContentTypes(ctx))
 );
-admin.get("/content-types/*", async (c) =>
-  c.html(await loadContentType(c))
-);
+admin.get("/content-types/:contentType", async (ctx) => {
+  const id = ctx.req.param("contentType");
 
-// app.get("/api/forms", async (c) => c.html(await loadForm(c)));
+  return ctx.html(await loadContentType(ctx, id));
+});
 
-// app.get("/api/form-components", async (c) => {
-//   return c.json(await getForm());
+// app.get("/api/forms", async (ctx) => ctx.html(await loadForm(ctx)));
+
+// app.get("/api/form-components", async (ctx) => {
+//   return ctx.json(await getForm());
 // });
 
 export { admin };
