@@ -157,7 +157,7 @@ const Form = (props: { title: string; screenTitle: string }) => {
 
 export async function loadAdmin(context) {
 
-    await putData(context.env.KVDATA, 'site1', 'content', {title: '20230508a'});
+    // await putData(context.env.KVDATA, 'site1', 'content', {title: '20230508a'});
 
 
   const data = await getDataByPrefix(context.env.KVDATA);

@@ -1,33 +1,36 @@
 import { getById, getDataByPrefix, putData } from "../../data/data";
 import { Top } from "../theme";
 
-export async function loadSites(context) {
-  console.log("mods context", context);
-  console.log("context KVDATA", context.env.KVDATA);
+export async function loadSites(ctx) {
+
+  await ctx.env.KVDATA.put("host::sites::site3", JSON.stringify({ title: "The Orange Website" }));
+
+  // console.log("mods ctx", ctx);
+  // console.log("ctx KVDATA", ctx.env.KVDATA);
 
 
-  const mods = await getDataByPrefix(context.env.KVDATA, "site1::module");
-  console.log("mods site", mods[0]);
+  const sites = await getDataByPrefix(ctx.env.KVDATA, "host::sites");
+  console.log("sites -->", sites);
 
-//   const data = await getDataByPrefix(context.env.KVDATA, "host::sites::");
+//   const data = await getDataByPrefix(ctx.env.KVDATA, "host::sites::");
 
 //   console.log("data site", data[0]);
 
-  let data = [{id:"123",title:'ipsum'}];
-  const list = data.map((item) => {
+  // let data = [{id:"123",title:'ipsum'}];
+  const list = sites.keys.map((item) => {
     console.log("data site", item);
 
     return {
-      title: item.title,
-      path: `/admin/sites/${item.id}`,
+      title: item.name,
+      path: `/admin/sites/${item.name}`,
     };
   });
 
   return <Top items={list} screenTitle="Sites" />;
 }
 
-export async function loadSite(context) {
-  const data = await getById(context.env.KVDATA, "host::sites::orange-site");
+export async function loadSite(ctx) {
+  const data = await getById(ctx.env.KVDATA, "host::sites::orange-site");
 
   console.log("data site", data[0]);
   const list = data.map((item) => {

@@ -9,6 +9,6 @@ it("should generate a key", () => {
 
 it("should generate a key for a content type", () => {
   const key = getKey("", "", "site1::content-type::blog-post");
-  console.log(key);
+  // console.log(key);
   expect(key).toBe("site1::content-type::blog-post");
 });

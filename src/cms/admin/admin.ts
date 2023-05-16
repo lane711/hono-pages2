@@ -1,7 +1,6 @@
 // import { Hono } from 'hono'
 // const app = new Hono()
 
-const admin = new Hono<{ Bindings: Bindings }>();
 
 import { Hono } from "hono";
 import { loadForm } from "./forms/form";
@@ -13,7 +12,10 @@ import {
   loadModule,
   loadModules,
 } from "./theme";
+
 import { Bindings } from "../types/bindings";
+const admin = new Hono<{ Bindings: Bindings }>();
+
 // const html = `
 // <!DOCTYPE html>
 // <html>
@@ -39,6 +41,10 @@ import { Bindings } from "../types/bindings";
 // `
 
 //   export default app
+
+admin.get("/ping", (c) => {
+  return c.text(Date());
+});
 
 admin.get("/", async (c) => c.html(await loadAdmin(c)));
 
