@@ -6,9 +6,9 @@ main = "src/server.ts"
 compatibility_flags = ["streams_enable_constructors"]
 
 kv_namespaces = [
-  { binding = "KVDATA", preview_id = "43d5f62ebc9f4e9cafa30671613cbfa0", id = "43d5f62ebc9f4e9cafa30671613cbfa0" }
+  { binding = "KVDATA", preview_id = "7bc60594ab4d4557a18dfaeb5431e00c", id = "9921775919554210a146dcb84ba00987" }
 ]
 
-[dev]
-port = 3077
+# [dev]
+# port = 3077
 

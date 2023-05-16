@@ -2,12 +2,12 @@ import { getById, getDataByPrefix, putData } from "../../data/data";
 import { Top } from "../theme";
 
 export async function loadSites(context) {
-//   console.log("mods context", context);
-//   console.log("context KVDATA", context.env.KVDATA);
+  console.log("mods context", context);
+  console.log("context KVDATA", context.env.KVDATA);
 
 
-//   const mods = await getDataByPrefix(context.env.KVDATA, "site1::module");
-//   console.log("mods site", mods[0]);
+  const mods = await getDataByPrefix(context.env.KVDATA, "site1::module");
+  console.log("mods site", mods[0]);
 
 //   const data = await getDataByPrefix(context.env.KVDATA, "host::sites::");
 

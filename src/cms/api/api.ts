@@ -1,31 +1,45 @@
+import { Hono } from "hono";
 import { getForm, loadForm } from "../admin/forms/form";
-import { getById, putData } from "../data/data";
+import { getById, getDataByPrefix, putData } from "../data/data";
+import { Bindings } from "../types/bindings";
 
-export function setupApi(app) {
+const api = new Hono<{ Bindings: Bindings }>();
 
-  app.get('/api/test', (c) => {
-    return c.text('Many posts')
-  })
+api.get("/ping", (c) => {
+  return c.text(Date());
+});
 
-  app.get("/api/forms", async (c) => c.html(await loadForm(c)));
+api.get("/data", async (c) => {
+  const data = await getDataByPrefix(c.env.KVDATA, "")
+  return c.json(data);
+});
 
-  app.get("/api/form-components/:contentType", async (c) => {
-    const id = c.req.param('contentType')
+api.get("/forms", async (c) => c.html(await loadForm(c)));
 
-    console.log('id--->', id)
+api.get("/form-components/:contentType", async (c) => {
+  const id = c.req.param("contentType");
 
-    const ct = await getById(c.env.KVDATA, `${id}`);
-    return c.json(ct);
-  });
+  console.log("id--->", id);
 
-  app.post("/api/form-components", async (c) => {
-    const param = await c.req.json()
+  const ct = await getById(c.env.KVDATA, `${id}`);
+  return c.json(ct);
+});
 
-    console.log('formComponents-->', param);
-    //put in kv
-    const result = await putData(c.env.KVDATA, 'site1', 'content-type', param, "site1::content-type::blog-post");
+api.post("/form-components", async (c) => {
+  const param = await c.req.json();
 
-    console.log('form put', result);
-    return c.text('Created!', 201);
-  });
-}
+  console.log("formComponents-->", param);
+  //put in kv
+  const result = await putData(
+    c.env.KVDATA,
+    "site1",
+    "content-type",
+    param,
+    "site1::content-type::blog-post"
+  );
+
+  console.log("form put", result);
+  return c.text("Created!", 201);
+});
+
+export { api };

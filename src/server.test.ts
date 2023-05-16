@@ -1,8 +1,8 @@
 import app from './server'
 
 describe('Test the application', () => {
-  it('Should return 200 response', async () => {
+  it('should redirect to /admin', async () => {
     const res = await app.request('http://localhost/')
-    expect(res.status).toBe(200)
+    expect(res.status).toBe(302)
   })
 })

@@ -2,18 +2,28 @@ import { Hono } from "hono";
 // import { html } from 'hono/html'
 // import { jsx } from 'hono/jsx'
 
-import { setAdmin } from "./cms/admin/admin";
-import { setupApi } from "./cms/api/api";
+import { api } from "./cms/api/api";
+import { Bindings } from "./cms/types/bindings";
+import { admin } from "./cms/admin/admin";
 
-const app = new Hono();
+const app = new Hono<{ Bindings: Bindings }>()
 
-app.get("/", (ctx) => ctx.text("Hello world, this is SonicJs 2023!!"));
+app.get("/", async (ctx) => {
+  // const result = await ctx.env.KVDATA.put("test123b", JSON.stringify({ test: "123b" }));
+  // console.log("result", ctx.env.KVDATA, result);
+  // let value = await ctx.env.KVDATA.list({});
+  // console.log("test is", value);
+
+  return ctx.redirect('/admin');
+});
 
 app.get("/public/*", async (ctx) => {
   return await ctx.env.ASSETS.fetch(ctx.req.raw);
 });
 
-setupApi(app);
-setAdmin(app);
+app.route('/api', api)
+app.route('/admin', admin)
+
+// setAdmin(app);
 
 export default app;

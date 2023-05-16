@@ -5,7 +5,7 @@
   "main": "src/server.ts",
   "scripts": {
     "dev": "run-p dev:*",
-    "dev:wrangler": "wrangler pages dev dist --live-reload",
+    "dev:wrangler": "wrangler pages dev dist --persist --live-reload",
     "dev:esbuild": "rsync -avzh ./public ./dist --delete && esbuild --bundle src/server.ts --format=esm --watch --outfile=dist/_worker.js",
     "build": " rsync -avzh ./public ./dist --delete && esbuild --bundle src/server.ts --format=esm --outfile=dist/_worker.js",
     "deploy": "wrangler pages publish dist",
