@@ -6,6 +6,7 @@ import { loadForm } from "./forms/form";
 import { loadSite, loadSites } from "./pages/sites";
 import {
   loadAdmin,
+  loadContent,
   loadContentType,
   loadContentTypeNew,
   loadContentTypes,
@@ -47,6 +48,11 @@ admin.get("/ping", (ctx) => {
 });
 
 admin.get("/", async (ctx) => ctx.html(await loadAdmin(ctx)));
+
+admin.get("/content/new/:contentType", async (ctx) => {
+  const id = ctx.req.param("contentType");
+  return ctx.html(await loadContent(ctx, id));
+});
 
 admin.get("/sites", async (ctx) => ctx.html(await loadSites(ctx)));
 admin.get("/sites/*", async (ctx) => ctx.html(await loadSite(ctx)));

@@ -250,7 +250,8 @@ const Layout = (props: {
         ></script>
 
         <script src="/public/js/admin.js"></script>
-        <script src="/public/js/form.js"></script>
+        <script src="/public/js/form-content-type.js"></script>
+        <script src="/public/js/form-content.js"></script>
       </body>
     </html>
   );
@@ -404,10 +405,70 @@ export const Top = (props: {
   );
 };
 
-export const TopWithLink = (props: {
+export const TopContentList = (props: {
+  items: object[];
+  screenTitle: string;
+}) => {
+  return (
+    <Layout screenTitle={props.screenTitle}>
+      <div class="row">
+        <div class="col-md-8">
+        <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Key</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.items.map((item: any) => {
+            return (
+              <tr>
+                <th scope="row">
+                  {" "}
+                  <a class="" href={item.editPath}>
+                    {item.title}
+                  </a>
+                </th>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+        </div>
+        <div class="col-md-4">
+        <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">New Content</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.items.map((item: any) => {
+            return (
+              <tr>
+                <td>
+                  <a class="" href={item.newPath}>
+                    New Content: {item.title}
+                  </a>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+        </div>
+      </div>
+
+
+    </Layout>
+  );
+};
+
+export const ContentTypeList = (props: {
   items: object[];
   screenTitle: string;
   link: string;
+  newItemButtonText:string;
 }) => {
   return (
     <Layout screenTitle={props.screenTitle}>
@@ -418,17 +479,34 @@ export const TopWithLink = (props: {
         </a>
       </div>
 
-      <ul>
-        {props.items.map((item: any) => {
-          return (
-            <li>
-              <a class="" href={item.path}>
-                {item.title}
-              </a>
-            </li>
-          );
-        })}
-      </ul>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Edit</th>
+            <th scope="col">New Content</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.items.map((item: any) => {
+            return (
+              <tr>
+                <th scope="row">
+                  {" "}
+                  <a class="" href={item.path}>
+                    {item.title}
+                  </a>
+                </th>
+                <td>
+                  <a class="" href={item.newPath}>
+                    New Content: {item.title}
+                  </a>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+
     </Layout>
   );
 };
@@ -493,11 +571,12 @@ export async function loadAdmin(context) {
   const list = data.keys.map((item) => {
     return {
       title: item.name,
-      path: `/admin/content/${item.name}`,
+      editPath: `/admin/content/${item.name}`,
+      newPath: `/admin/content/new/${item.name}`,
     };
   });
 
-  return <Top items={list} screenTitle="Content" />;
+  return <TopContentList items={list} screenTitle="Content" />;
 }
 
 export async function loadModules(context) {
@@ -549,11 +628,13 @@ export async function loadContentTypes(context) {
     return {
       title: item.name,
       path: `/admin/content-type/edit/${item.name}`,
+      newPath: `/admin/content/new/${item.name}`,
+
     };
   });
 
   return (
-    <TopWithLink
+    <ContentTypeList
       items={list}
       screenTitle="Content Types"
       newItemButtonText="New Content Type"
@@ -589,6 +670,18 @@ export async function loadContentType(context, id) {
   const contentType = getContentType(data);
   return (
     <FormBuilder
+      title={contentType}
+      saveButtonText="Save Content Type"
+      screenTitle="Content Type"
+    />
+  );
+}
+
+export async function loadContent(context, id) {
+  const data = await getById(context.env.KVDATA, id);
+  const contentType = getContentType(data);
+  return (
+    <Form
       title={contentType}
       saveButtonText="Save Content Type"
       screenTitle="Content Type"
