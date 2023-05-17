@@ -7,6 +7,7 @@ import { loadSite, loadSites } from "./pages/sites";
 import {
   loadAdmin,
   loadContentType,
+  loadContentTypeNew,
   loadContentTypes,
   loadModule,
   loadModules,
@@ -56,7 +57,10 @@ admin.get("/modules/*", async (ctx) => ctx.html(await loadModule(ctx)));
 admin.get("/content-types", async (ctx) =>
   ctx.html(await loadContentTypes(ctx))
 );
-admin.get("/content-types/:contentType", async (ctx) => {
+admin.get("/content-type/new", async (ctx) =>
+  ctx.html(await loadContentTypeNew(ctx))
+);
+admin.get("/content-type/edit/:contentType", async (ctx) => {
   const id = ctx.req.param("contentType");
 
   return ctx.html(await loadContentType(ctx, id));
