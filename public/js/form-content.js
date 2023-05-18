@@ -60,42 +60,19 @@ function newContent() {
 function saveNewContent(data){
   console.log(data);
 
-}
-
-function newContentType() {
-
-  
-  Formio.icons = "fontawesome";
-  // Formio.createForm(document.getElementById("formio"), {
-  Formio.builder(document.getElementById("formio"), {
-    components: newComponents,
-  }).then(function (form) {
-    form.on("submit", function (submission) {
-      console.log(submission);
-    });
-    form.on("change", async function (event) {
-      $("#contentFormSaveButton").removeAttr("disabled");
-      if (event.components) {
-        contentTypeComponents = event.components;
-        console.log("event ->", event);
-      }
-    });
-  });
-}
-
-function onContentFormSave() {
-  console.log("saving content type");
-  console.log(contentTypeComponents);
-
-  axios.post("/api/form-components", contentTypeComponents).then((response) => {
+  axios.post("/api/content", data).then((response) => {
     console.log(response.data);
     console.log(response.status);
     console.log(response.statusText);
     console.log(response.headers);
     console.log(response.config);
     if(response.status === 200 || response.status === 201){
-      location.href = '/admin/content-types';
+      location.href = '/admin';
 
     }
   });
+
 }
+
+
+

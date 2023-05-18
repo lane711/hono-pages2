@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { getForm, loadForm } from "../admin/forms/form";
-import { getById, getDataByPrefix, putData, saveContentType } from "../data/data";
+import { getById, getDataByPrefix, putData, saveContent, saveContentType } from "../data/data";
 import { Bindings } from "../types/bindings";
 
 const api = new Hono<{ Bindings: Bindings }>();
@@ -19,7 +19,7 @@ api.get("/forms", async (c) => c.html(await loadForm(c)));
 api.get("/form-components/:contentType", async (c) => {
   const id = c.req.param("contentType");
 
-  console.log("id--->", id);
+  // console.log("id--->", id);
 
   const ct = await getById(c.env.KVDATA, `${id}`);
   return c.json(ct);
@@ -34,6 +34,21 @@ api.post("/form-components", async (c) => {
     c.env.KVDATA,
     "site1",
     formComponents
+  );
+
+  console.log("form put", result);
+  return c.text("Created!", 201);
+});
+
+api.post("/content", async (c) => {
+  const content = await c.req.json();
+
+  console.log("content-->", content);
+  //put in kv
+  const result = await saveContent(
+    c.env.KVDATA,
+    "site1",
+    content
   );
 
   console.log("form put", result);
