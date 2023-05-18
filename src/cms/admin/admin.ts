@@ -4,17 +4,12 @@
 import { Hono } from "hono";
 import { loadForm } from "./forms/form";
 import { loadSite, loadSites } from "./pages/sites";
-import {
-  loadAdmin,
-  loadContent,
-  loadContentType,
-  loadContentTypeNew,
-  loadContentTypes,
-  loadModule,
-  loadModules,
-} from "./theme";
+
 
 import { Bindings } from "../types/bindings";
+import { loadAdmin, loadContent } from "./pages/content";
+import { loadModule, loadModules } from "./pages/module";
+import { loadContentType, loadContentTypeNew, loadContentTypes } from "./pages/content-type";
 const admin = new Hono<{ Bindings: Bindings }>();
 
 // const html = `
@@ -55,7 +50,7 @@ admin.get("/content/new/:contentType", async (ctx) => {
 });
 
 admin.get("/sites", async (ctx) => ctx.html(await loadSites(ctx)));
-admin.get("/sites/*", async (ctx) => ctx.html(await loadSite(ctx)));
+// admin.get("/sites/*", async (ctx) => ctx.html(await loadSite(ctx)));
 
 admin.get("/modules", async (ctx) => ctx.html(await loadModules(ctx)));
 admin.get("/modules/*", async (ctx) => ctx.html(await loadModule(ctx)));

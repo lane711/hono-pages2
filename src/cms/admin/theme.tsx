@@ -5,7 +5,7 @@ import {
   putData,
 } from "../data/data";
 
-const Layout = (props: {
+export const Layout = (props: {
   children?: string;
   formComponents?: any[];
   screenTitle?: string;
@@ -405,117 +405,14 @@ export const Top = (props: {
   );
 };
 
-export const TopContentList = (props: {
-  items: object[];
-  screenTitle: string;
-}) => {
-  return (
-    <Layout screenTitle={props.screenTitle}>
-      <div class="row">
-        <div class="col-md-8">
-        <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Key</th>
-          </tr>
-        </thead>
-        <tbody>
-          {props.items.map((item: any) => {
-            return (
-              <tr>
-                <th scope="row">
-                  {" "}
-                  <a class="" href={item.editPath}>
-                    {item.title}
-                  </a>
-                </th>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-        </div>
-        <div class="col-md-4">
-        <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">New Content</th>
-          </tr>
-        </thead>
-        <tbody>
-          {props.items.map((item: any) => {
-            return (
-              <tr>
-                <td>
-                  <a class="" href={item.newPath}>
-                    New Content: {item.title}
-                  </a>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-        </div>
-      </div>
 
 
-    </Layout>
-  );
-};
-
-export const ContentTypeList = (props: {
-  items: object[];
-  screenTitle: string;
-  link: string;
-  newItemButtonText:string;
-}) => {
-  return (
-    <Layout screenTitle={props.screenTitle}>
-      <div class="pb-2 mb-3">
-        {/* <!-- Button trigger modal --> */}
-        <a href={props.link} class="btn btn-warning">
-          {props.newItemButtonText}
-        </a>
-      </div>
-
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Edit</th>
-            <th scope="col">New Content</th>
-          </tr>
-        </thead>
-        <tbody>
-          {props.items.map((item: any) => {
-            return (
-              <tr>
-                <th scope="row">
-                  {" "}
-                  <a class="" href={item.path}>
-                    {item.title}
-                  </a>
-                </th>
-                <td>
-                  <a class="" href={item.newPath}>
-                    New Content: {item.title}
-                  </a>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-
-    </Layout>
-  );
-};
 
 export const Detail = (props: { item: any; screenTitle: string }) => {
   return <Layout screenTitle={props.screenTitle}>{props.item}</Layout>;
 };
 
-const FormBuilder = (props: {
+export const FormBuilder = (props: {
   title: string;
   screenTitle: string;
   saveButtonText: string;
@@ -538,7 +435,7 @@ const FormBuilder = (props: {
   );
 };
 
-const Form = (props: {
+export const Form = (props: {
   title: string;
   screenTitle: string;
   saveButtonText: string;
@@ -561,48 +458,9 @@ const Form = (props: {
   );
 };
 
-export async function loadAdmin(context) {
-  // await putData(context.env.KVDATA, 'site1', 'content', {title: '20230508a'});
 
-  const data = await getDataByPrefix(context.env.KVDATA);
 
-  console.log("load admin data", data);
 
-  const list = data.keys.map((item) => {
-    return {
-      title: item.name,
-      editPath: `/admin/content/${item.name}`,
-      newPath: `/admin/content/new/${item.name}`,
-    };
-  });
-
-  return <TopContentList items={list} screenTitle="Content" />;
-}
-
-export async function loadModules(context) {
-  const data = await getDataByPrefix(context.env.KVDATA, "site1::module");
-
-  const list = data.keys.map((item) => {
-    return {
-      title: item.name,
-      path: `/admin/modules/${item.name}`,
-    };
-  });
-
-  return <Top items={list} screenTitle="Modules" />;
-}
-
-export async function loadModule(context) {
-  console.log("context url", context.req);
-  const id = context.req.path.split("/").pop();
-  console.log("context id", id);
-
-  const data = await getById(context.env.KVDATA, id);
-
-  console.log("data module", data);
-
-  return <Detail item={data.title} screenTitle="Module" />;
-}
 
 // export async function loadSites(context) {
 //   const data = await getById(context.env.KVDATA, "host::sites");
@@ -618,76 +476,9 @@ export async function loadModule(context) {
 //   return <Top items={list} screenTitle="Sites" />;
 // }
 
-export async function loadContentTypes(context) {
-  console.log("loadContentTypes KVDATA", context.env.KVDATA);
 
-  const data = await getDataByPrefix(context.env.KVDATA, "site1::content-type");
-  console.log("data", data);
 
-  const list = data.keys.map((item) => {
-    return {
-      title: item.name,
-      path: `/admin/content-type/edit/${item.name}`,
-      newPath: `/admin/content/new/${item.name}`,
 
-    };
-  });
-
-  return (
-    <ContentTypeList
-      items={list}
-      screenTitle="Content Types"
-      newItemButtonText="New Content Type"
-      link="/admin/content-type/new"
-    />
-  );
-}
-
-export async function loadContentTypeNew(context) {
-  console.log("loadContentTypes KVDATA", context.env.KVDATA);
-
-  const data = await getDataByPrefix(context.env.KVDATA, "site1::content-type");
-  console.log("data", data);
-
-  const list = data.keys.map((item) => {
-    return {
-      title: item.name,
-      path: `/admin/content-types/${item.name}`,
-    };
-  });
-
-  return (
-    <Form
-      saveButtonText="Save Content Type"
-      screenTitle="New Content Type"
-      title=""
-    />
-  );
-}
-
-export async function loadContentType(context, id) {
-  const data = await getById(context.env.KVDATA, id);
-  const contentType = getContentType(data);
-  return (
-    <FormBuilder
-      title={contentType}
-      saveButtonText="Save Content Type"
-      screenTitle="Content Type"
-    />
-  );
-}
-
-export async function loadContent(context, id) {
-  const data = await getById(context.env.KVDATA, id);
-  const contentType = getContentType(data);
-  return (
-    <Form
-      title={contentType}
-      saveButtonText="Save Content Type"
-      screenTitle="Content Type"
-    />
-  );
-}
 
 // app.get("/new", async (c) => {
 //   KVDATA.put(`todo_${Date.now()}`, JSON.stringify({ "foo": "bar" }));

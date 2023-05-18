@@ -1,7 +1,7 @@
 // declare const KVDATA: KVNamespace;
 
 export function getKey(site, schema, key = undefined): string {
-  return key ?? `${site}::${schema}::${getTicksSortKey()}::${getId(7)}`;
+  return key ?? `${site}::content::${schema}::${getTicksSortKey()}::${getId(7)}`;
 }
 
 function getTicksSortKey() {
@@ -36,7 +36,7 @@ export function putData(db, site, contentType, value, key = undefined) {
 
 export function saveContentType(db, site, contentTypeComponents) {
   const contentType = getContentType(contentTypeComponents);
-  const generatedKey = `${site}::content-types::${contentType}`;
+  const generatedKey = `${site}::content-type::${contentType}`;
   console.log("generatedKey", generatedKey);
   return db.put(generatedKey, JSON.stringify(contentTypeComponents));
 }
@@ -46,7 +46,6 @@ export function saveContent(db, site, content) {
   const contentType = content.data.systemId;
   const generatedKey = getKey(site, contentType);
 
-  // const generatedKey = `${site}::content-types::${contentType}`;
   console.log("generatedKey", generatedKey);
   return db.put(generatedKey, JSON.stringify(content));
 }
