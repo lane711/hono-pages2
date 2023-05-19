@@ -452,7 +452,6 @@ export const Form = (props: {
           {props.saveButtonText}
         </button>{" "}
       </div>
-
       <div id="formio"></div>
     </Layout>
   );

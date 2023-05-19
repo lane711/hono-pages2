@@ -7,7 +7,7 @@ import { loadSite, loadSites } from "./pages/sites";
 
 
 import { Bindings } from "../types/bindings";
-import { loadAdmin, loadContent } from "./pages/content";
+import { loadAdmin, loadEditContent, loadNewContent } from "./pages/content";
 import { loadModule, loadModules } from "./pages/module";
 import { loadContentType, loadContentTypeNew, loadContentTypes } from "./pages/content-type";
 const admin = new Hono<{ Bindings: Bindings }>();
@@ -46,7 +46,12 @@ admin.get("/", async (ctx) => ctx.html(await loadAdmin(ctx)));
 
 admin.get("/content/new/:contentType", async (ctx) => {
   const id = ctx.req.param("contentType");
-  return ctx.html(await loadContent(ctx, id));
+  return ctx.html(await loadNewContent(ctx, id));
+});
+
+admin.get("/content/edit/:contentId", async (ctx) => {
+  const id = ctx.req.param("contentId");
+  return ctx.html(await loadEditContent(ctx, id));
 });
 
 admin.get("/sites", async (ctx) => ctx.html(await loadSites(ctx)));

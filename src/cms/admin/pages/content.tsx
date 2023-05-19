@@ -5,14 +5,17 @@ export async function loadAdmin(context) {
   // await putData(context.env.KVDATA, 'site1', 'content', {title: '20230508a'});
 
   const content = await getDataByPrefix(context.env.KVDATA, "site1::content::");
-  const contentTypes = await getDataByPrefix(context.env.KVDATA, "site1::content-type::");
+  const contentTypes = await getDataByPrefix(
+    context.env.KVDATA,
+    "site1::content-type::"
+  );
 
   console.log("load admin data", content);
 
   const contentList = content.keys.map((item) => {
     return {
       title: item.name,
-      editPath: `/admin/content/${item.name}`,
+      editPath: `/admin/content/edit/${item.name}`,
       newPath: `/admin/content/new/${item.name}`,
     };
   });
@@ -25,12 +28,18 @@ export async function loadAdmin(context) {
     };
   });
 
-  return <TopContentList content={contentList} contentTypes={contentTypeList} screenTitle="Content" />;
+  return (
+    <TopContentList
+      content={contentList}
+      contentTypes={contentTypeList}
+      screenTitle="Content"
+    />
+  );
 }
 
-export async function loadContent(context, id) {
+export async function loadNewContent(context, id) {
   const data = await getById(context.env.KVDATA, id);
-  console.log('loadContent--????', id, data)
+  console.log("loadContent--????", id, data);
   const contentType = getContentType(data);
   return (
     <Form
@@ -40,6 +49,52 @@ export async function loadContent(context, id) {
     />
   );
 }
+
+export async function loadEditContent(context, id) {
+  const content = await getById(context.env.KVDATA, id);
+  // console.log("loadEditContent", id, content);
+
+  // console.log('loadEditContent content type', contentType)
+
+  return (
+    <ContentEditForm
+      title={content}
+      saveButtonText="Save Content Type"
+      screenTitle="Content Type"
+      contentId={id}
+    />
+  );
+}
+
+function editScript() {  
+
+  return console.log('hello');
+}
+
+export const ContentEditForm = (props: {
+  title: string;
+  screenTitle: string;
+  saveButtonText: string;
+  contentId: string;
+}) => {
+  
+  return (
+    <Layout screenTitle={props.screenTitle + ": " + props.title}>
+      <div class="pb-2 mb-3">
+        <button
+          id="contentFormSaveButton"
+          class="btn btn-warning"
+          onclick="onContentFormSave()"
+          disabled
+        >
+          {props.saveButtonText}
+        </button>{" "}
+      </div>
+
+      <div id="formio" data-id={props.contentId}></div>
+    </Layout>
+  );
+};
 
 export const TopContentList = (props: {
   content: object[];
