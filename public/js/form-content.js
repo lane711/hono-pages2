@@ -9,7 +9,7 @@ var contentTypeComponents;
     mode = "new";
   }
 
-  if (url.indexOf("admin/content-type/edit") > 0) {
+  if (url.indexOf("admin/content/edit") > 0) {
     mode = "edit";
   }
 
@@ -18,7 +18,7 @@ var contentTypeComponents;
   }
 
   if (mode == "edit") {
-    editContentType();
+    editContent();
   }
 
   if (mode == "new") {
@@ -27,7 +27,6 @@ var contentTypeComponents;
 })();
 
 function newContent() {
-
   const contentType = window.location.href.split("/").pop();
   console.log("contentType", contentType);
 
@@ -57,7 +56,35 @@ function newContent() {
   });
 }
 
-function saveNewContent(data){
+function editContent() {
+  const contentId = $("#formio").attr("data-id");
+  console.log("contentType", contentId);
+  axios.get(`/api/content/${contentId}`).then((response) => {
+    console.log(response.data);
+
+    Formio.icons = "fontawesome";
+    // Formio.createForm(document.getElementById("formio"), {
+    Formio.createForm(document.getElementById("formio"), {
+      components: response.data.contentType,
+    }).then(function (form) {
+      form.on("submit", function (data) {
+        saveNewContent(data);
+      });
+      form.submission = {
+        data: response.data.content.data,
+      };
+      form.on("change", async function (event) {
+        $("#contentFormSaveButton").removeAttr("disabled");
+        if (event.components) {
+          contentTypeComponents = event.components;
+          console.log("event ->", event);
+        }
+      });
+    });
+  });
+}
+
+function saveNewContent(data) {
   console.log(data);
 
   axios.post("/api/content", data).then((response) => {
@@ -66,13 +93,8 @@ function saveNewContent(data){
     console.log(response.statusText);
     console.log(response.headers);
     console.log(response.config);
-    if(response.status === 200 || response.status === 201){
-      location.href = '/admin';
-
+    if (response.status === 200 || response.status === 201) {
+      location.href = "/admin";
     }
   });
-
 }
-
-
-
