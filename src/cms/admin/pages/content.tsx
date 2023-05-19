@@ -10,7 +10,7 @@ export async function loadAdmin(context) {
     "site1::content-type::"
   );
 
-  console.log("load admin data", content);
+  // console.log("load admin data", content);
 
   const contentList = content.keys.map((item) => {
     return {
@@ -79,18 +79,7 @@ export const ContentEditForm = (props: {
 }) => {
   
   return (
-    <Layout screenTitle={props.screenTitle + ": " + props.title}>
-      <div class="pb-2 mb-3">
-        <button
-          id="contentFormSaveButton"
-          class="btn btn-warning"
-          onclick="onContentFormSave()"
-          disabled
-        >
-          {props.saveButtonText}
-        </button>{" "}
-      </div>
-
+    <Layout screenTitle={"Edit: " + props.contentId}>
       <div id="formio" data-id={props.contentId}></div>
     </Layout>
   );

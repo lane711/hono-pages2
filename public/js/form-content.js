@@ -68,7 +68,7 @@ function editContent() {
       components: response.data.contentType,
     }).then(function (form) {
       form.on("submit", function (data) {
-        saveNewContent(data);
+        saveContent(data);
       });
       form.submission = {
         data: response.data.content.data,
@@ -84,16 +84,17 @@ function editContent() {
   });
 }
 
-function saveNewContent(data) {
-  console.log(data);
+function saveContent(data) {
 
+  data.key = window.location.href.split("/").pop();
+  
   axios.post("/api/content", data).then((response) => {
     console.log(response.data);
     console.log(response.status);
     console.log(response.statusText);
     console.log(response.headers);
     console.log(response.config);
-    if (response.status === 200 || response.status === 201) {
+    if (response.status === 201 || response.status === 204) {
       location.href = "/admin";
     }
   });

@@ -41,10 +41,10 @@ export function saveContentType(db, site, contentTypeComponents) {
   return db.put(generatedKey, JSON.stringify(contentTypeComponents));
 }
 
-export function saveContent(db, site, content) {
+export function saveContent(db, site, content, key) {
   console.log("content--->", content.data.systemId);
   const contentType = content.data.systemId;
-  const generatedKey = getKey(site, contentType);
+  const generatedKey = key ?? getKey(site, contentType);
 
   console.log("generatedKey", generatedKey);
   return db.put(generatedKey, JSON.stringify(content));

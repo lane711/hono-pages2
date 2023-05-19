@@ -59,13 +59,14 @@ api.get("/content/:contentId", async (ctx) => {
 
 api.post("/content", async (c) => {
   const content = await c.req.json();
-
-  console.log("content-->", content);
+  const key = content.key;
+  // console.log("content-->", content);
   //put in kv
-  const result = await saveContent(c.env.KVDATA, "site1", content);
+  const result = await saveContent(c.env.KVDATA, "site1", content, key);
 
-  console.log("form put", result);
-  return c.text("Created!", 201);
+  const status = key ? 204 : 201;
+
+  return c.text("", status);
 });
 
 export { api };
