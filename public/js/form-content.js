@@ -56,7 +56,7 @@ function newContent() {
   });
 }
 
-function saveNewContent(data){
+function saveNewContent(data) {
   console.log(data);
 
   axios.post("/api/content", data).then((response) => {
@@ -65,15 +65,12 @@ function saveNewContent(data){
     console.log(response.statusText);
     console.log(response.headers);
     console.log(response.config);
-    if(response.status === 200 || response.status === 201){
-      location.href = '/admin';
-
+    if (response.status === 200 || response.status === 201) {
+      location.href = "/admin";
     }
   });
-
 }
 function editContent() {
-  debugger;
   const contentId = $("#formio").attr("data-id");
   console.log("contentType", contentId);
   axios.get(`/api/content/${contentId}`).then((response) => {
@@ -102,7 +99,6 @@ function editContent() {
 }
 
 function saveContent(data) {
-
   data.key = window.location.href.split("/").pop();
 
   axios.post("/api/content", data).then((response) => {

@@ -2,6 +2,7 @@ import { add, getKey } from "./data";
 
 it("should generate a key", () => {
   const key = getKey("site", "module");
+  console.log(key);
   expect(key.startsWith("site::module")).toBe(true);
   expect(key.length).toBe(40);
 
