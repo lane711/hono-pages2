@@ -73,7 +73,7 @@ function saveNewContent(data) {
 function editContent() {
   const contentId = $("#formio").attr("data-id");
   console.log("contentType", contentId);
-  axios.get(`/api/content/${contentId}`).then((response) => {
+  axios.get(`/api/content-with-content-type/${contentId}`).then((response) => {
     console.log(response.data);
 
     Formio.icons = "fontawesome";
