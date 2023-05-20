@@ -38,6 +38,8 @@ export async function loadAdmin(context) {
 }
 
 export async function loadNewContent(context, id) {
+  console.log("loadContent id", id);
+
   const data = await getById(context.env.KVDATA, id);
   console.log("loadContent--????", id, data);
   const contentType = getContentType(data);
