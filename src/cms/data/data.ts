@@ -55,6 +55,14 @@ export function putData(db, site, contentType, value, key = undefined) {
   return db.put(generatedKey, JSON.stringify(value));
 }
 
+export function putDataWithMetaData(db, site, contentType, value, key = undefined) {
+  const generatedKey = getKey(site, contentType, key);
+  console.log("generatedKey", generatedKey);
+  return db.put(generatedKey, JSON.stringify(value),{
+    metadata: { value },
+  });
+}
+
 export function saveContentType(db, site, contentTypeComponents) {
   const contentType = getContentType(contentTypeComponents);
   const generatedKey = `${site}::content-type::${contentType}`;
@@ -68,7 +76,10 @@ export function saveContent(db, site, content, key) {
   const generatedKey = key ?? getContentKey(site, contentType);
 
   console.log("generatedKey", generatedKey);
-  return db.put(generatedKey, JSON.stringify(content));
+  // return db.put(generatedKey, JSON.stringify(content));
+  return db.put(generatedKey, JSON.stringify(content), {
+    metadata: { content },
+  });
 }
 
 export function getContentType(contentTypeComponents) {
