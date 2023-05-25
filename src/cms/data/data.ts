@@ -72,6 +72,7 @@ export function saveContentType(db, site, contentTypeComponents) {
 
 export function saveContent(db, site, content, key) {
   console.log("content--->", content.data.systemId);
+  delete content.metadata;
   const contentType = content.data.systemId;
   const generatedKey = key ?? getContentKey(site, contentType);
 

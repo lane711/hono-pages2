@@ -59,6 +59,15 @@ console.log('content', content);
   return ctx.json(content);
 });
 
+api.get("/contents-with-meta/:contype-type", async (ctx) => {
+  const contentType = ctx.req.param("contype-type");
+
+  // const content = await getDataListByPrefix(ctx.env.KVDATA, `site1::content::${contentType}`);
+  const content = await getDataListByPrefix(ctx.env.KVDATA, `site1::content::${contentType}`);
+console.log('content', content);
+  return ctx.json(content);
+});
+
 api.get("/content-with-content-type/:contentId", async (ctx) => {
   const id = ctx.req.param("contentId");
   const content = await getById(ctx.env.KVDATA, `${id}`);
