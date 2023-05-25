@@ -5,7 +5,9 @@ export function getKey(site, schema, key = undefined): string {
 }
 
 export function getContentKey(site, schema, key = undefined): string {
-  return key ?? `${site}::content::${schema}::${getTicksSortKey()}::${getId(7)}`;
+  return (
+    key ?? `${site}::content::${schema}::${getTicksSortKey()}::${getId(7)}`
+  );
 }
 
 function getTicksSortKey() {
@@ -20,11 +22,26 @@ export function getId(length) {
   return res;
 }
 
-export function getDataByPrefix(db, prefix = "") {
+export function getDataListByPrefix(db, prefix = "") {
   return db.list({ prefix });
 }
 
-export function getById(db, key) {
+export async function getDataByPrefix(db, prefix = "") {
+  const list = await getDataListByPrefix(db, prefix);
+  // console.log("list", list);
+  const content = [];
+
+  for await (const key of list.keys) {
+    const record = await getById(db, key.name);
+    content.push(record.data);
+  }
+
+  console.log("getDataByPrefix content--->", content);
+
+  return content;
+}
+
+export async function getById(db, key) {
   return db.get(key, { type: "json" });
 }
 

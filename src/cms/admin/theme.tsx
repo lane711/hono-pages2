@@ -1,7 +1,7 @@
 import {
   getById,
   getContentType,
-  getDataByPrefix,
+  getDataListByPrefix,
   putData,
 } from "../data/data";
 

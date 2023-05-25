@@ -3,6 +3,7 @@ import { getForm, loadForm } from "../admin/forms/form";
 import {
   getById,
   getDataByPrefix,
+  getDataListByPrefix,
   putData,
   saveContent,
   saveContentType,
@@ -16,7 +17,7 @@ api.get("/ping", (c) => {
 });
 
 api.get("/data", async (c) => {
-  const data = await getDataByPrefix(c.env.KVDATA, "");
+  const data = await getDataListByPrefix(c.env.KVDATA, "");
   return c.json(data);
 });
 
@@ -52,8 +53,9 @@ api.get("/content/:contentId", async (ctx) => {
 api.get("/contents/:contype-type", async (ctx) => {
   const contentType = ctx.req.param("contype-type");
 
+  // const content = await getDataListByPrefix(ctx.env.KVDATA, `site1::content::${contentType}`);
   const content = await getDataByPrefix(ctx.env.KVDATA, `site1::content::${contentType}`);
-
+console.log('content', content);
   return ctx.json(content);
 });
 

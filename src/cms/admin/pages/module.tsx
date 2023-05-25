@@ -1,8 +1,8 @@
-import { getById, getDataByPrefix } from "../../data/data";
+import { getById, getDataListByPrefix } from "../../data/data";
 import { Detail, Top } from "../theme";
 
 export async function loadModules(context) {
-  const data = await getDataByPrefix(context.env.KVDATA, "site1::module");
+  const data = await getDataListByPrefix(context.env.KVDATA, "site1::module");
 
   const list = data.keys.map((item) => {
     return {

@@ -1,11 +1,11 @@
-import { getById, getContentType, getDataByPrefix } from "../../data/data";
+import { getById, getContentType, getDataListByPrefix } from "../../data/data";
 import { Form, Layout } from "../theme";
 
 export async function loadAdmin(context) {
   // await putData(context.env.KVDATA, 'site1', 'content', {title: '20230508a'});
 
-  const content = await getDataByPrefix(context.env.KVDATA, "site1::content::");
-  const contentTypes = await getDataByPrefix(
+  const content = await getDataListByPrefix(context.env.KVDATA, "site1::content::");
+  const contentTypes = await getDataListByPrefix(
     context.env.KVDATA,
     "site1::content-type::"
   );
