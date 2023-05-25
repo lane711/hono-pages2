@@ -49,6 +49,14 @@ api.get("/content/:contentId", async (ctx) => {
   return ctx.json(content);
 });
 
+api.get("/contents/:contype-type", async (ctx) => {
+  const contentType = ctx.req.param("contype-type");
+
+  const content = await getDataByPrefix(ctx.env.KVDATA, `site1::content::${contentType}`);
+
+  return ctx.json(content);
+});
+
 api.get("/content-with-content-type/:contentId", async (ctx) => {
   const id = ctx.req.param("contentId");
   const content = await getById(ctx.env.KVDATA, `${id}`);
