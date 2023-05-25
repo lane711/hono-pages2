@@ -17,6 +17,15 @@ app.get("/", async (ctx) => {
   return ctx.redirect('/admin');
 });
 
+app.get("/binding", async (ctx) => {
+  // const result = await ctx.env.KVDATA.put("test123b", JSON.stringify({ test: "123b" }));
+  // console.log("result", ctx.env.KVDATA, result);
+  // let value = await ctx.env.KVDATA.list({});
+  // console.log("test is", value);
+  return ctx.json(ctx.env.KVDATA,);
+
+});
+
 app.get("/public/*", async (ctx) => {
   return await ctx.env.ASSETS.fetch(ctx.req.raw);
 });
