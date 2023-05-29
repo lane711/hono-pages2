@@ -9,6 +9,7 @@ compatibility_flags = ["streams_enable_constructors"]
 account_id = "xxx"
 
 # run the `wrangler kv:namespace create sonicjs` command and copy the id below
+# Only update the id, leave the binding name as "KVDATA"
 kv_namespaces = [
   { binding = "KVDATA", id = "xxx" }
 ]
