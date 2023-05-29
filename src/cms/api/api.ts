@@ -7,7 +7,6 @@ import {
   putData,
   saveContent,
   saveContentType,
-  saveContentTypeJson,
 } from "../data/data";
 import { Bindings } from "../types/bindings";
 
@@ -38,7 +37,7 @@ api.post("/form-components", async (c) => {
 
   console.log("formComponents-->", formComponents);
   //put in kv
-  const result = await saveContentTypeJson(c.env.KVDATA, "site1", formComponents);
+  const result = await saveContentType(c.env.KVDATA, "site1", formComponents);
 
   console.log("form put", result);
   return c.text("Created!", 201);
