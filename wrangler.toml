@@ -1,14 +1,19 @@
 compatibility_date = "2022-02-21"
 name = "sonicjs"
-account_id = "f9d6328dc3115e621758a741dda3d5c4"
 workers_dev = true
 main = "src/server.ts"
 compatibility_flags = ["streams_enable_constructors"]
 
+# enter your account id
+account_id = "xxx"
+
+# run the `wrangler kv:namespace create sonicjs` command and copy the id below
 kv_namespaces = [
-  { binding = "KVDATA", preview_id = "7bc60594ab4d4557a18dfaeb5431e00c", id = "9921775919554210a146dcb84ba00987" }
+  { binding = "KVDATA", id = "xxx" }
 ]
 
-# [dev]
-# port = 3077
-
+[env.production]
+route = "example.com/*"
+kv_namespaces = [
+  { binding = "KVDATA", id = "yyy" }
+]
