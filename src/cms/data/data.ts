@@ -63,11 +63,24 @@ export function putDataWithMetaData(db, site, contentType, value, key = undefine
   });
 }
 
-export function saveContentType(db, site, contentTypeComponents) {
+export function saveContentTypeKV(db, site, contentTypeComponents) {
   const contentType = getContentType(contentTypeComponents);
   const generatedKey = `${site}::content-type::${contentType}`;
   console.log("generatedKey", generatedKey);
   return db.put(generatedKey, JSON.stringify(contentTypeComponents));
+}
+
+export function saveContentTypeJson(db, site, contentTypeComponents) {
+  const contentType = getContentType(contentTypeComponents);
+  const generatedKey = `${site}::content-type::${contentType}`;
+  console.log("generatedKey", generatedKey);
+
+  fs.writeFile(`../../custom/content-types/${contentType}`, contentTypeComponents, function (err) {
+    if (err) throw err;               
+    console.log('Content Type Received');
+  });
+
+  // return db.put(generatedKey, JSON.stringify(contentTypeComponents));
 }
 
 export function saveContent(db, site, content, key) {
