@@ -4,7 +4,8 @@ workers_dev = true
 main = "src/server.ts"
 compatibility_flags = ["streams_enable_constructors"]
 
-# enter your account id
+# Enter your account id
+# This can be found at https://dash.cloudflare.com/ --> Workers & Pages --> Overview, then in the right sidebar
 account_id = "xxx"
 
 # run the `wrangler kv:namespace create sonicjs` command and copy the id below
