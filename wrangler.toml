@@ -1,8 +1,7 @@
-compatibility_date = "2022-02-21"
+compatibility_date = "2023-05-18"
 name = "sonicjs"
 workers_dev = true
 main = "src/server.ts"
-compatibility_flags = ["streams_enable_constructors"]
 
 # Enter your account id
 # This can be found at https://dash.cloudflare.com/ --> Workers & Pages --> Overview, then in the right sidebar
