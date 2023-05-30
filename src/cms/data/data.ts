@@ -84,11 +84,8 @@ export function saveContent(db, site, content, key) {
 }
 
 export function getContentType(contentTypeComponents) {
-  const systemWell = contentTypeComponents.find((c) => c.key === "system");
-  const contentType = systemWell.components.find(
-    (c) => c.key === "systemId"
-  ).defaultValue;
-  return contentType;
+  const contentType = contentTypeComponents.find((c) => c.key === "systemId");
+  return contentType.defaultValue;
 }
 
 export function add(a, b) {

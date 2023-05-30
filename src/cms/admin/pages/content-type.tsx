@@ -2,10 +2,10 @@ import { getById, getContentType, getDataListByPrefix } from "../../data/data";
 import { Form, FormBuilder, Layout } from "../theme";
 
 export async function loadContentTypes(context) {
-    console.log("loadContentTypes KVDATA", context.env.KVDATA);
+    // console.log("loadContentTypes KVDATA", context.env.KVDATA);
   
     const data = await getDataListByPrefix(context.env.KVDATA, "site1::content-type");
-    console.log("data", data);
+    // console.log("data", data);
   
     const list = data.keys.map((item) => {
       return {
@@ -27,10 +27,10 @@ export async function loadContentTypes(context) {
   }
   
   export async function loadContentTypeNew(context) {
-    console.log("loadContentTypes KVDATA", context.env.KVDATA);
+    // console.log("loadContentTypes KVDATA", context.env.KVDATA);
   
     const data = await getDataListByPrefix(context.env.KVDATA, "site1::content-type");
-    console.log("data", data);
+    // console.log("data", data);
   
     const list = data.keys.map((item) => {
       return {

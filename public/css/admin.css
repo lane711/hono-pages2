@@ -184,3 +184,12 @@ body {
   border-color: transparent;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
 }
+
+/*
+ * Form Builder
+ */
+#systemIdComponent{
+  background: var(--bs-light);
+  padding: 30px;
+  border-radius: 8px;
+}
